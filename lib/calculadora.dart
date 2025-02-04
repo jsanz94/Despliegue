@@ -1,3 +1,7 @@
 class Calculadora {
-  final int counter = 0;
+  int counter = 0;
+
+  void increment(){
+    counter++;
+  }
 }
