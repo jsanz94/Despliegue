@@ -31,7 +31,7 @@ jobs:
     - name: Publicación en GitHub Releases                  # GitHub Release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        github_token: "${{ secrets.GITHUB_TOKEN }}"
+        github_token: "${{ secrets.WORKFLOW_TOKEN }}"
         prerelease: false
         files: |                                            # Archivos que se subirán
           build/app/outputs/bundle/release/app-release.aab
