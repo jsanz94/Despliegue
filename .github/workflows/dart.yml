@@ -4,7 +4,9 @@ on:
   push:
     tags:
       - "v*"      # Solo se activará la acción cuando se suba un tag que comience por 'v'
-
+permissions:
+  actions: write
+  contents: write
 jobs:
  build_android:
    runs-on: ubuntu-latest
