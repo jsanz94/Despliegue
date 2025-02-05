@@ -17,7 +17,7 @@ jobs:
     - name: Instalación de Java                             # Instalación de Java
       uses: actions/setup-java@v1
       with:
-        java-version: '12.x'
+        java-version: '17.x'
     - name: Instalación de Flutter                          # Instalación de flutter
       uses: subosito/flutter-action@v2
       with:
