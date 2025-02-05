@@ -10,5 +10,6 @@ main(){
     cal.increment();
 
     expect(cal.counter, 1);
+    
   });
 }
