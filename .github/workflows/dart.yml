@@ -5,10 +5,6 @@ on:
     tags:
       - "v*"      # Solo se activará la acción cuando se suba un tag que comience por 'v'
 
-permissions:
-  contents: write
-  actions: write
-  
 jobs:
  build_android:
    runs-on: ubuntu-latest
@@ -29,6 +25,7 @@ jobs:
     - name: Publicación en GitHub Releases                  # GitHub Release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |                                            # Archivos que se subirán
           build/app/outputs/bundle/release/app-release.aab
