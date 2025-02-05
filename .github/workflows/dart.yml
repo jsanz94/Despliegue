@@ -1,43 +1,38 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Dart
+name: Despliegue_Android
 
 on:
   push:
-    branches: [ "main" ]
-
+    tags:
+      - "v*"      # Solo se activará la acción cuando se suba un tag que comience por 'v'
+permissions:
+  actions: write
+  contents: write
 jobs:
-  build:
-    runs-on: ubuntu-latest
+ build_android:
+   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      - uses: flutter-actions/setup-flutter@v4
-        with:
-          channel: stable
-          flutter-version-file: pubspec.yaml
-
-        run: flutter --version
-      - name: Install dependencies
-        run: flutter pub get
-
-      # Uncomment this step to verify the use of 'dart format' on each commit.
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter analyze
-
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: flutter test
+   steps:
+    - name: Clonado del repositorio                         # Clonado del repositorio
+      uses: actions/checkout@v4
+    - name: Instalación de Java                             # Instalación de Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Instalación de Flutter                          # Instalación de flutter
+      uses: subosito/flutter-action@v4
+      with:
+        channel: 'stable'
+    - name: Instalación de dependencias del proyecto        # Dependencias del proyecto
+      run: flutter pub get
+    - name: Compilación y creación del AAB                  # AAB
+      run: flutter build appbundle --release
+    - name: Compilación y creación del APK                  # APK
+      run: flutter build apk --release --split-per-abi
+    - name: Publicación en GitHub Releases                  # GitHub Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        github_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |                                            # Archivos que se subirán
+          build/app/outputs/bundle/release/app-release.aab
+          build/app/outputs/apk/release/*.apk
