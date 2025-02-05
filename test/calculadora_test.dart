@@ -1,6 +1,6 @@
 
 
-import '../lib/calculadora.dart';
+import 'package:despliegue/calculadora.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main(){
